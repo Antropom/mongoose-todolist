@@ -19,7 +19,7 @@ const findOne = async (req, res) => {
         result,
       })
     } else {
-      res.status(404).send(`No Message found with id ${id}`)
+      res.status(404).send(`No task found with id ${id}`)
     }
   } catch (err) {
     res.status(500).send(err.message)
@@ -60,9 +60,26 @@ const create = async (req, res) => {
   }
 }
 
+const update = async (req, res) => {
+  const { id } = req.params
+  const datas = req.body
+  try {
+    const doc = await todoTaskService.findOne(id)
+    if (doc) {
+      const result = await todoTaskService.update(doc, datas)
+      res.status(201).send('Task updated')
+    } else {
+      res.status(404).send(`No task found with id ${id}`)
+    }
+  } catch (err) {
+    res.status(500).send(err.message)
+  }
+}
+
 module.exports = {
   findAll,
   findOne,
   search,
   create,
+  update,
 }

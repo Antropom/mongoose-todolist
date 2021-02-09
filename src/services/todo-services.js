@@ -24,4 +24,13 @@ const create = (datas) => {
   })
 }
 
-module.exports = { findAll, findOne, search, create }
+const update = (doc, datas) => {
+  doc.title = datas.title ? datas.title : doc.title
+  doc.date = datas.date ? datas.date : doc.date
+  doc.description = datas.description ? datas.description : doc.description
+  return doc.save().then((results) => {
+    return results
+  })
+}
+
+module.exports = { findAll, findOne, search, create, update }
