@@ -5,7 +5,7 @@ const {
   findOne,
   search,
   create,
-} = require('../controllers/controller.sample')
+} = require('../controllers/todo-controler')
 
 router.get('/', findAll)
 router.get('/:id', findOne)
