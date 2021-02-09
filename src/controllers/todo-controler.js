@@ -5,7 +5,7 @@ const findAll = async (req, res) => {
     const results = await todoTaskService.findAll()
     res.status(200).json(results)
   } catch (err) {
-    res.status(500).send(err)
+    res.status(500).send(err.message)
   }
 }
 
@@ -22,7 +22,7 @@ const findOne = async (req, res) => {
       res.status(404).send(`No Message found with id ${id}`)
     }
   } catch (err) {
-    res.status(500).send(err)
+    res.status(500).send(err.message)
   }
 }
 
@@ -39,20 +39,24 @@ const search = async (req, res) => {
       res.status(404).send('Nothing found')
     }
   } catch (err) {
-    res.status(500).send(err)
+    res.status(500).send(err.message)
   }
 }
 
 const create = async (req, res) => {
   const datas = req.body
-  try {
-    const result = await todoTaskService.create(datas)
-    res.status(201).json({
-      message: 'Created',
-      result,
-    })
-  } catch (err) {
-    res.status(500).send(err)
+  if (datas.date && datas.title) {
+    try {
+      const result = await todoTaskService.create(datas)
+      res.status(201).json({
+        message: 'Created',
+        result,
+      })
+    } catch (err) {
+      res.status(500).send(err.message)
+    }
+  } else {
+    res.status(400).send('Missing datas')
   }
 }
 
