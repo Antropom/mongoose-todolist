@@ -24,13 +24,15 @@ const create = (datas) => {
   })
 }
 
-const update = (doc, datas) => {
-  doc.title = datas.title ? datas.title : doc.title
-  doc.date = datas.date ? datas.date : doc.date
-  doc.description = datas.description ? datas.description : doc.description
-  return doc.save().then((results) => {
-    return results
-  })
+const update = (id, datas) => {
+  return TodoTaskModel.findByIdAndUpdate(
+    id,
+    datas,
+    { useFindAndModify: false },
+    (results) => {
+      return results
+    }
+  )
 }
 
 module.exports = { findAll, findOne, search, create, update }
