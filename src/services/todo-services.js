@@ -10,7 +10,7 @@ const findOne = (id) => {
 
 const search = (query) => {
   const reg = new RegExp(query, 'i')
-  return TodoTaskModel.find({ message: reg })
+  return TodoTaskModel.find({ title: reg })
 }
 
 const create = (datas) => {
