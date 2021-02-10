@@ -35,4 +35,8 @@ const update = (id, datas) => {
   )
 }
 
-module.exports = { findAll, findOne, search, create, update }
+const delOne = (id) => {
+  return TodoTaskModel.deleteOne({ _id: id }, (results) => results)
+}
+
+module.exports = { findAll, findOne, search, create, update, delOne }

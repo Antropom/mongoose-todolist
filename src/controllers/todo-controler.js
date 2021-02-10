@@ -13,17 +13,16 @@ const findOne = async (req, res) => {
   const { id } = req.params
   try {
     const result = await todoTaskService.findOne(id)
-
-    res.status(200).json({
-      message: 'Success',
-      result,
-    })
-  } catch (err) {
-    if (err.kind === 'ObjectId') {
+    if (!result) {
       res.status(404).send(`No task found with id ${id}`)
     } else {
-      res.status(500).send(err.message)
+      res.status(200).json({
+        message: 'Success',
+        result,
+      })
     }
+  } catch (err) {
+    res.status(500).send(err.message)
   }
 }
 
@@ -65,7 +64,7 @@ const update = async (req, res) => {
   const { id } = req.params
   const datas = req.body
   try {
-    const result = await todoTaskService.update(id, datas)
+    await todoTaskService.update(id, datas)
     res.status(201).send('Task updated')
   } catch (err) {
     if (err.kind === 'ObjectId') {
@@ -76,10 +75,21 @@ const update = async (req, res) => {
   }
 }
 
+const delOne = async (req, res) => {
+  const { id } = req.params
+  try {
+    await todoTaskService.delOne(id)
+    res.sendStatus(204)
+  } catch (err) {
+    res.status(500).send(err.message)
+  }
+}
+
 module.exports = {
   findAll,
   findOne,
   search,
   create,
   update,
+  delOne,
 }
