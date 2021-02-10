@@ -1,4 +1,4 @@
-# Boilerplate : Node/Express/Mongoose
+# TodoList database API
 
 ## Start
 
