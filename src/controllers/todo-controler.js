@@ -13,16 +13,17 @@ const findOne = async (req, res) => {
   const { id } = req.params
   try {
     const result = await todoTaskService.findOne(id)
-    if (result) {
-      res.status(200).json({
-        message: 'Success',
-        result,
-      })
-    } else {
-      res.status(404).send(`No task found with id ${id}`)
-    }
+
+    res.status(200).json({
+      message: 'Success',
+      result,
+    })
   } catch (err) {
-    res.status(500).send(err.message)
+    if (err.kind === 'ObjectId') {
+      res.status(404).send(`No task found with id ${id}`)
+    } else {
+      res.status(500).send(err.message)
+    }
   }
 }
 
@@ -67,7 +68,11 @@ const update = async (req, res) => {
     const result = await todoTaskService.update(id, datas)
     res.status(201).send('Task updated')
   } catch (err) {
-    res.status(500).send(err.message)
+    if (err.kind === 'ObjectId') {
+      res.status(404).send(`No task found with id ${id}`)
+    } else {
+      res.status(500).send(err.message)
+    }
   }
 }
 
